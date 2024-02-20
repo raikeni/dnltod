@@ -6,7 +6,7 @@ import base64
 import os
 import os  # os 모듈을 임포트
 
-
+app = FastAPI()
 # 환경 변수에서 API 키 사용
 api_key1 = os.getenv("OPENAI_API_KEY")
 # api_key1=os.environ[OPENAI_API_KEY]
