@@ -5,7 +5,7 @@ import io
 import base64
 import os
 import os  # os 모듈을 임포트
-from dotenv import load_dotenv
+
 
 # 환경 변수에서 API 키 사용
 api_key1 = os.getenv("OPENAI_API_KEY")
