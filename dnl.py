@@ -3,16 +3,17 @@ from openai import OpenAI
 from PIL import Image
 import io
 import base64
+import os
 import os  # os 모듈을 임포트
-
-app = FastAPI()
+from dotenv import load_dotenv
 
 # 환경 변수에서 API 키 사용
-api_key = os.getenv("OPENAI_API_KEY")
-if not api_key:
+api_key1 = os.getenv("OPENAI_API_KEY")
+# api_key1=os.environ[OPENAI_API_KEY]
+if not api_key1:
     raise ValueError("API 키가 제공되지 않았습니다. OPENAI_API_KEY 환경 변수를 설정하세요.")
 
-client = OpenAI(api_key=api_key)
+client = OpenAI(api_key=api_key1)
 
 def describe(text):
     response = client.chat.completions.create(
@@ -32,6 +33,12 @@ def describe(text):
         max_tokens=20,
     )
     return response.choices[0].message.content
+
+@app.get("/")
+async def read_root():
+    return {"message": "환영합니다. FastAPI 서버가 실행 중입니다."}
+
+
 
 @app.post("/upload/")
 async def create_upload_file(file: UploadFile = File(...)):
