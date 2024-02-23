@@ -22,7 +22,7 @@ def describe(text):
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "이 이미지에 대해서 아주 자세히 묘사해줘"},
+                    {"type": "text", "text": "이 이미지에 대해서 아주 자세히 묘사해주고 max_tokens 이전에 말을 종료해줘."},
                     {
                         "type": "image_url",
                         "image_url": text,
