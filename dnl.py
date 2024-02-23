@@ -30,7 +30,7 @@ def describe(text):
                 ],
             }
         ],
-        max_tokens=20,
+        max_tokens=2024,
     )
     return response.choices[0].message.content
 
