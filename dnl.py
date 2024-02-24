@@ -59,7 +59,7 @@ async def create_upload_file(file: UploadFile = File(...)):
 
 # 파일 처리 및 텍스트 추출 함수
 async def process_audio_video(file_path: str, client):
-    if file_path.endswith(('.mp3', '.m4a', '.wav', '.mpga')):
+    if file_path.endswith(('.mp3', '.m4a')):
         clip = AudioFileClip(file_path)
     else:
         clip = VideoFileClip(file_path)
@@ -81,15 +81,14 @@ async def process_audio_video(file_path: str, client):
                     file=audio_file,
                     response_format="text"
                 )
-                # result += transcript.data['text']  # 추출된 텍스트를 결과에 추가
-                # result += transcript['choices'][0]['text']  # 수정된 부분
+
                 result += transcript
         current_start += interval
 
     clip.close()
     return result
 
-# 텍스트 요약 함수
+
 async def summarize(client, text: str):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -107,17 +106,17 @@ async def create_upload_file(file: UploadFile = File(...)):
     os.makedirs(upload_dir, exist_ok=True)
     file_path = os.path.join(upload_dir, file.filename)
 
-    # 업로드한 파일 저장
+    
     with open(file_path, 'wb') as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # 파일 처리 및 텍스트 추출
+   
     result = await process_audio_video(file_path, client)
 
-    # 추출된 전체 텍스트 요약
+    
     final_summary = await summarize(client, result)
 
-    # 임시 파일 삭제
+    
     os.remove(file_path)
 
     return {"summary": final_summary}
